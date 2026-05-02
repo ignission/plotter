@@ -8,19 +8,15 @@ from plotter.params import Params, params
 
 
 def test_params_singleton_is_instance():
-    """モジュールレベルで params シングルトンが Params のインスタンスとして
-    エクスポートされていること。"""
     assert isinstance(params, Params)
 
 
 def test_params_cannot_be_mutated():
-    """frozen=True により属性代入が FrozenInstanceError になること。"""
     with pytest.raises(dataclasses.FrozenInstanceError):
         params.card_thickness = 99.0  # type: ignore[misc]
 
 
 def test_card_defaults():
-    """Card パラメータのデフォルト値が SPEC.md と一致すること。"""
     assert params.card_width_std == 30.0
     assert params.card_width_wide == 60.0
     assert params.card_height == 30.0
@@ -28,70 +24,18 @@ def test_card_defaults():
     assert params.card_corner_radius == 3.0
 
 
-def test_body_panel_defaults():
-    """本体パネルのデフォルト値が SPEC.md と一致すること。"""
-    assert params.panel_width == 200.0
-    assert params.panel_height == 200.0
-    assert params.panel_thickness == 3.0
-    assert params.panel_angle == 75.0
-    assert params.shelf_count == 6
-    assert params.shelf_lip_height == 5.0
-    assert params.shelf_lip_thickness == 2.0
-    assert params.shelf_divider_thickness == 1.5
-    assert params.shelf_depth == 8.0
+def test_wedge_defaults():
+    assert params.wedge_width == 200.0
+    assert params.wedge_depth == 200.0
+    assert params.wedge_front_thickness == 5.0
+    assert params.wedge_back_thickness == 35.0
+    assert params.wedge_fillet_radius == 4.0
 
 
-def test_tenon_defaults():
-    """ホゾ（本体下端の凸）のデフォルト値。"""
-    assert params.tenon_count == 5
-    assert params.tenon_width == 14.0
-    assert params.tenon_thickness == 2.0
-    assert params.tenon_height == 20.0
-
-
-def test_mortise_clearance_default():
-    """ホゾ穴クリアランスは試作で実測調整される初期値。"""
-    assert params.mortise_clearance == 0.2
-
-
-def test_base_defaults():
-    """土台のデフォルト値。"""
-    assert params.base_width == 200.0
-    assert params.base_depth == 50.0
-    assert params.base_thickness == 4.0
-    assert params.base_front_lip_height == 3.0
-    assert params.base_front_lip_thickness == 2.0
-    assert params.base_ridge_height == 28.0
-    assert params.base_ridge_depth == 20.0
-
-
-def test_card_slit_defaults():
-    """カードスリット（Lyre 吊り下げ用）のデフォルト値。"""
-    assert params.card_top_slit_width == 1.5
-    assert params.card_top_slit_depth == 6.0
-    assert params.card_top_slit_corner_radius == 0.75
-
-
-def test_lyre_defaults():
-    """Lyre フレームのデフォルト値。"""
-    assert params.lyre_height == 150.0
-    assert params.lyre_width == 120.0
-    assert params.lyre_depth == 15.0
-    assert params.lyre_arm_thickness == 8.0
-
-
-def test_lyre_pedestal_defaults():
-    """Lyre ペデスタルのデフォルト値。"""
-    assert params.lyre_pedestal_height == 12.0
-    assert params.lyre_pedestal_width == 100.0
-    assert params.lyre_pedestal_depth == 60.0
-    assert params.lyre_pedestal_corner_radius == 6.0
-
-
-def test_wire_defaults():
-    """ワイヤ関連のデフォルト値。"""
-    assert params.wire_count == 6
-    assert params.wire_diameter == 1.0
-    assert params.wire_hole_diameter == 2.0
-    assert params.wire_top_z == 130.0
-    assert params.wire_bottom_z == 25.0
+def test_card_slot_defaults():
+    assert params.card_slot_rows == 6
+    assert params.card_slot_cols == 6
+    assert params.card_slot_pocket_depth == 3.0
+    assert params.card_slot_clearance == 0.5
+    assert params.card_slot_x_pitch == 33.0
+    assert params.card_slot_face_pitch == 33.0

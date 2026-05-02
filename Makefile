@@ -1,45 +1,27 @@
-.PHONY: all clean test card body body-test base assembly clearance format lint help
+.PHONY: all clean test card wedge format lint help
 
 PYTHON := uv run python
 BUILD_DIR := build
 
 help:
 	@echo "PLOTTER build targets:"
-	@echo "  make all       - Build all parts (STL + STEP)"
-	@echo "  make card      - Build all card variants (standard / wide / thickness test)"
-	@echo "  make body      - Build full body panel (200x200, 6 shelves)"
-	@echo "  make body-test - Build reduced test panel (100x80, 2 shelves)"
-	@echo "  make base      - Build 75 base (60/90 variants pending)"
-	@echo "  make clearance - Build tenon clearance test print"
-	@echo "  make assembly  - Build full assembly preview"
+	@echo "  make all       - Build all parts (cards + wedge)"
+	@echo "  make card      - Build all card variants"
+	@echo "  make wedge     - Build wedge body"
 	@echo "  make test      - Run pytest"
 	@echo "  make format    - Format code with ruff"
 	@echo "  make lint      - Lint code with ruff"
 	@echo "  make clean     - Remove build artifacts"
 
-all: card body base assembly
+all: card wedge
 
 card: $(BUILD_DIR)
 	$(PYTHON) parts/card_standard.py
 	$(PYTHON) parts/card_wide.py
 	$(PYTHON) parts/card_thickness_test.py
 
-body: $(BUILD_DIR)
-	$(PYTHON) parts/body_full.py
-
-body-test: $(BUILD_DIR)
-	$(PYTHON) parts/body_test.py
-
-base: $(BUILD_DIR)
-	$(PYTHON) parts/base_75.py
-	# $(PYTHON) parts/base_60.py  # TODO: 60° 版を実装したら有効化
-	# $(PYTHON) parts/base_90.py  # TODO: 90° 版を実装したら有効化
-
-clearance: $(BUILD_DIR)
-	$(PYTHON) tests/tenon_clearance_test.py
-
-assembly: $(BUILD_DIR)
-	$(PYTHON) assemblies/full_assembly.py
+wedge: $(BUILD_DIR)
+	$(PYTHON) parts/wedge.py
 
 test:
 	uv run pytest

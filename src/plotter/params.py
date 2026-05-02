@@ -1,6 +1,6 @@
 """PLOTTER 全部品の寸法・公差・パラメータの集中管理。
 
-他モジュール（card.py / body.py / base.py）は必ず
+他モジュール（card.py / wedge.py）は必ず
 
     from plotter.params import params
 
@@ -22,58 +22,20 @@ class Params:
     card_thickness: float = 2.0
     card_corner_radius: float = 3.0
 
-    # === Body Panel ===
-    panel_width: float = 200.0
-    panel_height: float = 200.0
-    panel_thickness: float = 3.0
-    panel_angle: float = 75.0
+    # === Wedge body ===
+    wedge_width: float = 200.0  # X 方向（左右）
+    wedge_depth: float = 200.0  # Y 方向（前後）
+    wedge_front_thickness: float = 5.0  # 前縁の薄さ
+    wedge_back_thickness: float = 35.0  # 後縁の厚さ
+    wedge_fillet_radius: float = 4.0  # 全エッジ R
 
-    shelf_count: int = 6
-    shelf_lip_height: float = 5.0
-    shelf_lip_thickness: float = 2.0
-    shelf_divider_thickness: float = 1.5  # 30mmカード+0.5mmクリアランスを確保するため2.0から減
-    shelf_depth: float = 8.0  # 仕切りがパネル前面から突き出す奥行
-
-    # === Tenon (本体下端の凸) ===
-    tenon_count: int = 5
-    tenon_width: float = 14.0
-    tenon_thickness: float = 2.0
-    tenon_height: float = 20.0
-
-    # === Mortise (土台側の穴) ===
-    # 試作で実測調整必須。第1試作前に tenon_clearance_test で確定する。
-    mortise_clearance: float = 0.2
-
-    # === Card top slit (Lyre 吊り下げ用) ===
-    card_top_slit_width: float = 1.5  # ワイヤ1mm + 0.5mm 隙間
-    card_top_slit_depth: float = 6.0  # 上端から下方向への深さ
-    card_top_slit_corner_radius: float = 0.75  # スリット底端の R（応力集中防止）
-
-    # === Lyre Frame ===
-    lyre_height: float = 150.0
-    lyre_width: float = 120.0
-    lyre_depth: float = 15.0
-    lyre_arm_thickness: float = 8.0
-    lyre_pedestal_height: float = 12.0
-    lyre_pedestal_width: float = 100.0
-    lyre_pedestal_depth: float = 60.0
-    lyre_pedestal_corner_radius: float = 6.0
-
-    # === Wire (1mm stainless steel rod) ===
-    wire_count: int = 6
-    wire_diameter: float = 1.0
-    wire_hole_diameter: float = 2.0  # FDM 横穴の縮み余裕
-    wire_top_z: float = 130.0
-    wire_bottom_z: float = 25.0
-
-    # === Base ===
-    base_width: float = 200.0
-    base_depth: float = 50.0
-    base_thickness: float = 4.0
-    base_front_lip_height: float = 3.0
-    base_front_lip_thickness: float = 2.0
-    base_ridge_height: float = 28.0
-    base_ridge_depth: float = 20.0
+    # === Card slots (cut into top tilted surface) ===
+    card_slot_rows: int = 6
+    card_slot_cols: int = 6
+    card_slot_pocket_depth: float = 3.0  # ポケット深さ（カード厚2+1mm余裕）
+    card_slot_clearance: float = 0.5  # ポケット幅と長さの余裕
+    card_slot_x_pitch: float = 33.0  # X 方向のスロット中心間隔
+    card_slot_face_pitch: float = 33.0  # 上面に沿った行間隔
 
 
 params = Params()
