@@ -63,3 +63,35 @@ def test_base_defaults():
     assert params.base_front_lip_thickness == 2.0
     assert params.base_ridge_height == 28.0
     assert params.base_ridge_depth == 20.0
+
+
+def test_card_slit_defaults():
+    """カードスリット（Lyre 吊り下げ用）のデフォルト値。"""
+    assert params.card_top_slit_width == 1.5
+    assert params.card_top_slit_depth == 6.0
+    assert params.card_top_slit_corner_radius == 0.75
+
+
+def test_lyre_defaults():
+    """Lyre フレームのデフォルト値。"""
+    assert params.lyre_height == 150.0
+    assert params.lyre_width == 120.0
+    assert params.lyre_depth == 15.0
+    assert params.lyre_arm_thickness == 8.0
+
+
+def test_lyre_pedestal_defaults():
+    """Lyre ペデスタルのデフォルト値。"""
+    assert params.lyre_pedestal_height == 12.0
+    assert params.lyre_pedestal_width == 100.0
+    assert params.lyre_pedestal_depth == 60.0
+    assert params.lyre_pedestal_corner_radius == 6.0
+
+
+def test_wire_defaults():
+    """ワイヤ関連のデフォルト値。"""
+    assert params.wire_count == 6
+    assert params.wire_diameter == 1.0
+    assert params.wire_hole_diameter == 2.0
+    assert params.wire_top_z == 130.0
+    assert params.wire_bottom_z == 25.0

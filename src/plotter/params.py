@@ -44,6 +44,28 @@ class Params:
     # 試作で実測調整必須。第1試作前に tenon_clearance_test で確定する。
     mortise_clearance: float = 0.2
 
+    # === Card top slit (Lyre 吊り下げ用) ===
+    card_top_slit_width: float = 1.5  # ワイヤ1mm + 0.5mm 隙間
+    card_top_slit_depth: float = 6.0  # 上端から下方向への深さ
+    card_top_slit_corner_radius: float = 0.75  # スリット底端の R（応力集中防止）
+
+    # === Lyre Frame ===
+    lyre_height: float = 150.0
+    lyre_width: float = 120.0
+    lyre_depth: float = 15.0
+    lyre_arm_thickness: float = 8.0
+    lyre_pedestal_height: float = 12.0
+    lyre_pedestal_width: float = 100.0
+    lyre_pedestal_depth: float = 60.0
+    lyre_pedestal_corner_radius: float = 6.0
+
+    # === Wire (1mm stainless steel rod) ===
+    wire_count: int = 6
+    wire_diameter: float = 1.0
+    wire_hole_diameter: float = 2.0  # FDM 横穴の縮み余裕
+    wire_top_z: float = 130.0
+    wire_bottom_z: float = 25.0
+
     # === Base ===
     base_width: float = 200.0
     base_depth: float = 50.0
