@@ -61,3 +61,5 @@ def test_base_defaults():
     assert params.base_thickness == 4.0
     assert params.base_front_lip_height == 3.0
     assert params.base_front_lip_thickness == 2.0
+    assert params.base_ridge_height == 28.0
+    assert params.base_ridge_depth == 20.0

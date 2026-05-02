@@ -50,6 +50,8 @@ class Params:
     base_thickness: float = 4.0
     base_front_lip_height: float = 3.0
     base_front_lip_thickness: float = 2.0
+    base_ridge_height: float = 28.0
+    base_ridge_depth: float = 20.0
 
 
 params = Params()
