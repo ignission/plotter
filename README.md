@@ -3,94 +3,66 @@
 > キーバインドを、プロットする。
 > *Plot your bindings.*
 
-覚えにくいキーバインドを物理カードで机に並べる学習装置。動詞・修飾キー・文字キーを部品として組み合わせ、自分の使うコマンドを物理的に構成する。覚えたら外す、新しく学ぶものが増えたら足す。
+覚えにくいキーバインドを物理カードで机に並べる学習装置。動詞・修飾キー・文字キーをカードに印刷し、自分の使うコマンドを物理的に構成する。覚えたら外す、新しく学ぶものが増えたら足す。
 
 ## なぜ作るのか
 
 LazyVim、AeroSpace、Claude Code、Git…。エンジニアの机には覚えるべきキーバインドが多すぎる。デジタルなチートシートはアプリを開かないと見えない。紙のメモは机に散らかる。Anki などのフラッシュカードアプリは「覚えた/覚えてない」をボタンで操作するだけで身体感覚が伴わない。
 
-PLOTTER は、**キーバインドを物理化して机の上に常駐させる**装置。視界に入るたびに無意識で覚える。覚えたカードは取り外し、空きセルには新しく学びたいキーバインドを差す。**学習の進捗が物理的に可視化される**。
+PLOTTER は、**キーバインドを物理化して机の上に常駐させる**装置。視界に入るたびに無意識で覚える。覚えたカードは取り外し、空いたスロットには新しく学びたいキーバインドを差す。**学習の進捗が物理的に可視化される**。
 
-## 商品構成
+「単なる物理チートシート」ではなく、**「カードを部品として組み合わせて自分のキーバインドを構成する」** という発想が中核。自分の dotfiles からカードを刷り、机の上で並び替えながら学ぶ。
 
-| 商品 | 内容 | 価格 |
-|---|---|---|
-| **PLOTTER Stand Set** | 本体 + 75°土台 + Core 60 カードセット | 9,800円 |
-| **PLOTTER Stand** | 本体 + 75°土台のみ | 5,800円 |
-| **PLOTTER Cards: Core 60** | カード111枚（動詞60 + 修飾5 + アルファベット26 + 数字10 + 特殊10） | 4,800円 |
-| **PLOTTER Tilt 60° / 90°** | 角度切替用の追加土台 | 各1,800円 |
-| **PLOTTER Cards: Verb Pack** | 拡張動詞カード（将来） | 2,800円 |
+## 形状
 
-## 物理仕様
+```
+             後縁 50mm
+        ┌────────────────────┐  ← 上面（6本の長スロット）
+       /  [検索][gd][Ctrl]   /
+      /   [保存][gr][Leader] /   傾斜 8.5°
+     /    ……6行 × 180mm……  /
+    └────────────────────────┘  ← 前縁 20mm
+    ←──── 200mm ────────────→
 
-- **構造**：L字（底板 + 背板棚式）、2部品差込式（ホゾ・ホゾ穴接続）
-- **寸法**：幅200mm × 高さ200mm × 奥行120mm
-- **棚**：6行、横方向の仕切りなし
-- **角度**：標準75°、土台SKU展開で60°/90°対応
-- **素材**：本体 PLA + 底面 TPU
-- **重量**：約170g
-- **部品点数**：本体1 + 土台1
+内部：Drawer（収納トレイ）が前面から引き出し式
+```
+
+Apple Magic Keyboard 系の薄いウェッジスラブ形状。机に置くとそのまま自立する。
+
+## 現行設計の特徴
+
+- **傾斜面ディスプレイ**: 上面が 8.5° 傾斜、カードが自然に見やすい角度で並ぶ
+- **長スロット式**: 6 本の 180mm スロットに標準カード(30mm)とワイドカード(60mm)を任意に混在・並び替え可能。列の仕切りなし
+- **内部ドロワー**: Wedge 内部に 180×150×12mm のキャビティ。前面から引き出すトレイに ~100 枚収納
+- **シンプル 2 パーツ**: Wedge 本体 + Drawer のみ。接続部品なし
 
 ## カード仕様
 
-- **標準カード**：30×30×2mm
-- **ワイドカード**：60×30×2mm（修飾キー専用）
-- **角R**：3mm
-- **印刷**：X2D デュアルカラー、文字エンボス方式
-- **フォント**：日本語 Noto Sans JP Bold、英字 JetBrains Mono Bold
-- **配色**：動詞=黄、修飾キー=紫、文字キー=緑、特殊キー=赤
+| 種類 | サイズ | 用途 |
+|---|---|---|
+| 標準カード | 30×30×2mm、角 R3 | 動詞、文字キー、数字、特殊キー |
+| ワイドカード | 60×30×2mm、角 R3 | 修飾キー（Leader、Cmd など） |
+
+配色：cream（動詞）/ lavender（修飾キー）/ mint（文字キー）/ pink（特殊キー）
+
+カードはウェッジ上面のスロットに差し込んで立てかけて使う。
 
 ## ドキュメント
 
 - [`CLAUDE.md`](./CLAUDE.md) — Claude Code 向けの作業前提・指示
-- [`docs/SPEC.md`](./docs/SPEC.md) — 物理仕様の詳細（寸法・公差・素材）
-- [`docs/CARDS.md`](./docs/CARDS.md) — カード111枚の完全リスト
-- [`docs/ROADMAP.md`](./docs/ROADMAP.md) — 試作から販売までのフェーズ
+- [`SPEC.md`](./SPEC.md) — 物理仕様の詳細（寸法・公差・印刷パラメータ）
+- [`CARDS.md`](./CARDS.md) — カード 111 枚の完全リスト
+- [`ROADMAP.md`](./ROADMAP.md) — 試作から販売までのフェーズ
 
 ## 技術スタック
 
-- **CAD**: [build123d](https://github.com/gumyr/build123d)（Python 製の B-rep CAD）
+- **CAD**: [build123d](https://github.com/gumyr/build123d) 0.10+（Python 製 B-rep CAD）
 - **基盤**: OpenCascade（業界標準の B-rep カーネル）
-- **3Dプリンタ**: Bambu Lab X2D（デュアルノズル、65℃チャンバー、Auto Hole Compensation）
-- **スライサー**: Bambu Studio
-- **素材**: Bambu Lab Basic PLA（マット推奨）+ TPU 95A
-- **依存管理**: uv（Python）
+- **3Dプリンタ**: Bambu Lab X2D（デュアルノズル）
+- **スライサー**: Bambu Studio（ツリーサポート推奨）
+- **素材**: Bambu Lab Basic PLA（マット推奨）
+- **依存管理**: uv / mise
 - **テスト**: pytest
-
-## ディレクトリ構成（予定）
-
-```
-plotter/
-├── README.md
-├── CLAUDE.md
-├── pyproject.toml          # uv 管理
-├── docs/
-│   ├── SPEC.md
-│   ├── CARDS.md
-│   └── ROADMAP.md
-├── src/plotter/
-│   ├── __init__.py
-│   ├── params.py           # 全パラメータ定義
-│   ├── card.py             # カードモジュール
-│   ├── body.py             # 本体パネルモジュール
-│   ├── base.py             # 土台モジュール
-│   └── utils.py            # 共通ユーティリティ
-├── parts/                  # エントリポイント（部品ごと1ファイル）
-│   ├── card_standard.py
-│   ├── card_wide.py
-│   ├── body_6row.py
-│   ├── base_75.py
-│   ├── base_60.py
-│   └── base_90.py
-├── assemblies/
-│   └── full_assembly.py    # プレビュー用組立図
-├── tests/
-│   ├── test_dimensions.py  # 寸法リグレッションテスト
-│   ├── test_assembly.py    # 組立整合性テスト
-│   └── tenon_clearance_test.py  # 公差検証パーツ生成
-├── build/                  # STL/STEP 出力先（gitignore）
-└── Makefile                # ビルド・テスト一括実行
-```
 
 ## クイックスタート
 
@@ -98,16 +70,52 @@ plotter/
 # 1. 環境セットアップ
 git clone https://github.com/shomatan/plotter
 cd plotter
+mise install
 uv sync
 
-# 2. ビルド（全部品の STL/STEP 生成）
-make all
+# 2. テスト
+mise exec -- uv run pytest
 
-# 3. テスト
-uv run pytest
+# 3. 試作セット（半スケール Wedge + Drawer + カード）生成
+make test-set
 
-# 4. 個別パーツの生成
-uv run python parts/card_standard.py
+# 4. Bambu Studio に build/*.stl を読み込み、ツリーサポート設定で印刷
+```
+
+## ディレクトリ構成
+
+```
+plotter/
+├── README.md
+├── CLAUDE.md
+├── pyproject.toml          # uv 管理
+├── Makefile
+├── SPEC.md
+├── ROADMAP.md
+├── CARDS.md
+├── src/plotter/
+│   ├── __init__.py
+│   ├── params.py           # 全パラメータ定義
+│   ├── card.py             # カードモジュール
+│   ├── wedge.py            # Wedge 本体モジュール
+│   ├── drawer.py           # Drawer モジュール
+│   └── utils.py            # 共通ユーティリティ
+├── parts/                  # エントリポイント（部品ごと1ファイル）
+│   ├── card_standard.py
+│   ├── card_wide.py
+│   ├── card_thickness_test.py
+│   ├── wedge.py
+│   ├── wedge_test.py       # 半スケール試作
+│   ├── drawer.py
+│   └── drawer_test.py      # 半スケール試作
+├── assemblies/             # プレビュー用組立図
+├── tests/
+│   ├── test_card.py
+│   ├── test_wedge.py
+│   ├── test_drawer.py
+│   ├── test_params.py
+│   └── test_utils.py
+└── build/                  # STL/STEP 出力先（gitignore）
 ```
 
 ## ライセンス（予定）
@@ -118,7 +126,7 @@ uv run python parts/card_standard.py
 
 ## ステータス
 
-🚧 **設計フェーズ**（build123d 着手前）
+設計フェーズ（build123d コード実装中）
 
 ## 著者
 
