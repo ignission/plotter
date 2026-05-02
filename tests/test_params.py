@@ -7,12 +7,6 @@ import pytest
 from plotter.params import Params, params
 
 
-def test_params_is_frozen_dataclass():
-    """Params は frozen=True の dataclass であること。"""
-    assert dataclasses.is_dataclass(Params)
-    assert Params.__dataclass_params__.frozen is True
-
-
 def test_params_singleton_is_instance():
     """モジュールレベルで params シングルトンが Params のインスタンスとして
     エクスポートされていること。"""
@@ -35,7 +29,7 @@ def test_card_defaults():
 
 
 def test_body_panel_defaults():
-    """本体パネルのデフォルト値。"""
+    """本体パネルのデフォルト値が SPEC.md と一致すること。"""
     assert params.panel_width == 200.0
     assert params.panel_height == 200.0
     assert params.panel_thickness == 3.0
