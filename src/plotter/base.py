@@ -28,8 +28,9 @@ def make_base(p: Params = default_params) -> Part:
     flat_depth = p.base_depth - p.base_ridge_depth  # = 30mm
 
     # === flat front: Y=0..flat_depth, Z=0..base_thickness ===
+    # 土台自体の幅は base_width。本体パネルの panel_width とは独立に変えられる。
     base = Pos(0, flat_depth / 2, p.base_thickness / 2) * Box(
-        p.panel_width, flat_depth, p.base_thickness
+        p.base_width, flat_depth, p.base_thickness
     )
 
     # === ridge block: Y=flat_depth..base_depth, Z=0..base_ridge_height ===
@@ -37,14 +38,14 @@ def make_base(p: Params = default_params) -> Part:
         0,
         flat_depth + p.base_ridge_depth / 2,
         p.base_ridge_height / 2,
-    ) * Box(p.panel_width, p.base_ridge_depth, p.base_ridge_height)
+    ) * Box(p.base_width, p.base_ridge_depth, p.base_ridge_height)
     base = base.fuse(ridge_block)
 
     # === 傾斜カット: ridge 上面を 15° 前下がりに切り落とす ===
     # ridge 前端 (Y=flat_depth, Z=base_ridge_height) を通る平面を基準に
     # X 軸まわり -angle_offset_deg 回転した大きな直方体で上面を cut する。
     # cutter の中心は回転軸から +Y, +Z 方向に大きく離す。
-    cutter_size = max(p.panel_width, p.base_depth, p.base_ridge_height) * 4
+    cutter_size = max(p.base_width, p.base_depth, p.base_ridge_height) * 4
     # 回転前の cutter: Y>0, Z>0 の大きな箱（回転軸の前端上角から始まる）
     # 回転後に ridge 前端上角 (Y=flat_depth, Z=base_ridge_height) 付近から
     # 斜め後ろに伸びて上面を切り落とす
@@ -61,7 +62,7 @@ def make_base(p: Params = default_params) -> Part:
         0,
         p.base_front_lip_thickness / 2,
         p.base_thickness + p.base_front_lip_height / 2,
-    ) * Box(p.panel_width, p.base_front_lip_thickness, p.base_front_lip_height)
+    ) * Box(p.base_width, p.base_front_lip_thickness, p.base_front_lip_height)
     base = base.fuse(lip)
 
     # === mortise holes × tenon_count ===

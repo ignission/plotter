@@ -17,12 +17,23 @@ def test_make_base_returns_part():
 
 
 def test_base_outer_bbox_matches_params():
-    """外形 bbox: X=panel_width, Y=base_depth, Z=base_ridge_height."""
+    """外形 bbox: X=base_width, Y=base_depth, Z=base_ridge_height."""
     base = make_base()
     bbox = base.bounding_box()
-    assert bbox.size.X == pytest.approx(params.panel_width, abs=0.01)
+    assert bbox.size.X == pytest.approx(params.base_width, abs=0.01)
     assert bbox.size.Y == pytest.approx(params.base_depth, abs=0.01)
     assert bbox.size.Z == pytest.approx(params.base_ridge_height, abs=0.01)
+
+
+def test_base_uses_base_width_independently_from_panel_width():
+    """base_width は panel_width と独立。
+
+    panel_width を変えても base_width はデフォルトのまま → bbox.X は base_width に追従。
+    ホゾ穴 X 位置は body と合わせるため panel_width 由来で残す。
+    """
+    custom = replace(params, panel_width=150.0)  # base_width はデフォルト 200
+    base = make_base(custom)
+    assert base.bounding_box().size.X == pytest.approx(params.base_width, abs=0.01)
 
 
 def test_base_starts_at_z_zero():
@@ -57,8 +68,8 @@ def test_base_mortise_clearance_meets_spec():
 
 
 def test_base_param_override():
-    """custom params で panel_width を変えると bbox X も追従。"""
-    custom = replace(params, panel_width=150.0)
+    """custom params で base_width を変えると bbox X も追従。"""
+    custom = replace(params, base_width=150.0)
     base = make_base(custom)
     assert base.bounding_box().size.X == pytest.approx(150.0, abs=0.01)
 
