@@ -13,11 +13,21 @@ def test_make_drawer_returns_part():
 
 
 def test_drawer_outer_dimensions():
+    """X, Z は外形通り。Y は取っ手の突出分が加算される。"""
     drawer = make_drawer()
     bbox = drawer.bounding_box()
     assert bbox.size.X == pytest.approx(params.drawer_width, abs=0.5)
-    assert bbox.size.Y == pytest.approx(params.drawer_depth, abs=0.5)
+    assert bbox.size.Y == pytest.approx(
+        params.drawer_depth + params.drawer_handle_protrusion, abs=0.5
+    )
     assert bbox.size.Z == pytest.approx(params.drawer_height, abs=0.5)
+
+
+def test_drawer_handle_protrudes_forward():
+    """取っ手は前方 (Y<0) に突出している。"""
+    drawer = make_drawer()
+    bbox = drawer.bounding_box()
+    assert bbox.min.Y == pytest.approx(-params.drawer_handle_protrusion, abs=0.5)
 
 
 def test_drawer_is_single_solid():

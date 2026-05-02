@@ -36,8 +36,10 @@ class Params:
     drawer_clearance: float = 0.4  # ウェッジキャビティとのスライド隙間
     drawer_wall_thickness: float = 2.0  # ドロワー外壁の厚み
     drawer_floor_offset_z: float = 4.0  # ウェッジ底からドロワー底面までの Z オフセット
-    drawer_pull_diameter: float = 18.0  # 前面の指掛け recess 直径
-    drawer_pull_depth: float = 4.0  # recess の深さ
+    drawer_handle_width: float = 60.0  # 取っ手バーの横幅
+    drawer_handle_height: float = 4.0  # 取っ手バーの縦幅
+    drawer_handle_protrusion: float = 5.0  # 前面からの突出量（指がかかる空間）
+    drawer_handle_fillet: float = 1.5  # 取っ手のエッジ R
 
     # === Card slots (cut into top tilted surface, 6 rows of long slits) ===
     # 列の仕切りはなし。各行 1 本の長スロット。標準カード(30mm)とワイド(60mm)

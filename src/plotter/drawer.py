@@ -9,7 +9,7 @@
 - Z: 高さ方向（Z=0 が底面）
 """
 
-from build123d import Box, Cylinder, Pos, Rotation
+from build123d import Box, Pos, fillet
 from build123d.topology import Compound, Part
 
 from plotter.params import Params
@@ -17,11 +17,14 @@ from plotter.params import params as default_params
 
 
 def make_drawer(p: Params = default_params) -> Part:
-    """ドロワーを単一の Part として返す。
+    """ドロワー（上面開口のトレイ）を単一の Part として返す。
 
     外形寸法: drawer_width × drawer_depth × drawer_height
-    内部空洞: 前面開口（Y=0 側は壁なし）、後面・左右・上下に drawer_wall_thickness の壁
-    前面指掛け recess: 前面中央に drawer_pull_diameter の円形くり抜き
+    内部空洞: 上面開口（カードを上から取り出す）、前面・後面・左右・底に
+    drawer_wall_thickness の壁。前面中央に指掛け recess（円形くり抜き）。
+
+    押し込み時はウェッジ天井がドロワー上面の蓋になる。
+    引き出し時は上が開いてカードが見える。
     """
     w = p.drawer_width
     d = p.drawer_depth
@@ -29,34 +32,39 @@ def make_drawer(p: Params = default_params) -> Part:
     wt = p.drawer_wall_thickness
 
     # === 外殻 ===
-    # Box の中心は原点に来る → Pos でオフセット
     body = Pos(0, d / 2, h / 2) * Box(w, d, h)
 
-    # === 内部空洞（前面開口） ===
-    # 前面 (Y=0) は開口するため内部空洞は Y=0..d-wt の範囲
-    # 左右・上下は wt の壁を残す
+    # === 内部空洞（上面開口） ===
+    # 前後左右に wt の壁、底に wt の壁、上は開口（壁なし）
     inner_w = w - 2 * wt
-    inner_d = d - wt  # 前面は開口（壁なし）、後面のみ wt の壁
-    inner_h = h - 2 * wt
-    # inner の Y 中心: Y=0 から Y=(d-wt) なので中心は (d-wt)/2
-    inner_y_center = (d - wt) / 2
-    inner_z_center = h / 2
+    inner_d = d - 2 * wt
+    # 上面開口: 内部 Box が上方向に飛び出すように、+1mm 余分に高くする
+    inner_h = h - wt + 1.0
+    inner_y_center = d / 2
+    # 内部 Box の Z 中心: 底壁 wt の上から、上は body 上端を 1mm 突き抜ける
+    # Z 範囲: wt から (h + 1.0) → 中心 = (wt + h + 1.0) / 2
+    inner_z_center = (wt + h + 1.0) / 2
     inner = Pos(0, inner_y_center, inner_z_center) * Box(inner_w, inner_d, inner_h)
     body = body - inner
 
-    # === 前面の指掛け recess（円形くり抜き） ===
-    # Cylinder のデフォルトは Z 方向、Rotation(90,0,0) で Y 方向に向く
-    # 前面 (Y=0) の中央から内側 pull_depth 分掘る
-    # 円柱の中心を Y=0 に置くと Y=-pull_depth/2..+pull_depth/2 の範囲に切り込む
-    # → 前面から pull_depth 分内部方向に掘るには中心を Y=-pull_depth/2 に配置
-    # （body は Y=0..d なので Y=0 から +Y 方向に掘る）
-    pull_z_center = h / 2  # 高さ方向中央
-    pull = (
-        Pos(0, p.drawer_pull_depth / 2, pull_z_center)
-        * Rotation(90, 0, 0)
-        * Cylinder(radius=p.drawer_pull_diameter / 2, height=p.drawer_pull_depth)
+    # === 前面の取っ手バー（前方に突出） ===
+    # 前面中央から外側 (Y<0) に protrusion 分突き出す。指がかかる立体的なバー。
+    handle_y_center = -p.drawer_handle_protrusion / 2
+    handle_z_center = h / 2
+    handle = Pos(handle_y_center * 0 + 0, handle_y_center, handle_z_center) * Box(
+        p.drawer_handle_width, p.drawer_handle_protrusion, p.drawer_handle_height
     )
-    body = body - pull
+    body = body + handle
+
+    # === 取っ手のエッジに fillet（指あたりを柔らかく） ===
+    # 突出した取っ手のエッジを丸める。fillet 失敗時はスキップ
+    try:
+        # 取っ手の Y<0 範囲のエッジを抽出（前方に突き出した部分のみ）
+        handle_edges = [e for e in body.edges() if e.center().Y < 0]
+        if handle_edges:
+            body = fillet(handle_edges, radius=p.drawer_handle_fillet)
+    except Exception:  # noqa: BLE001
+        pass
 
     # Boolean 演算後は Compound になるため Part に変換して返す
     if isinstance(body, Compound):

@@ -39,8 +39,10 @@ def test_drawer_defaults():
     assert params.drawer_clearance == 0.4
     assert params.drawer_wall_thickness == 2.0
     assert params.drawer_floor_offset_z == 4.0
-    assert params.drawer_pull_diameter == 18.0
-    assert params.drawer_pull_depth == 4.0
+    assert params.drawer_handle_width == 60.0
+    assert params.drawer_handle_height == 4.0
+    assert params.drawer_handle_protrusion == 5.0
+    assert params.drawer_handle_fillet == 1.5
 
 
 def test_card_slot_defaults():
