@@ -1,4 +1,4 @@
-.PHONY: all clean test card body base assembly clearance format lint help
+.PHONY: all clean test card body body-test base assembly clearance format lint help
 
 PYTHON := uv run python
 BUILD_DIR := build
@@ -7,7 +7,8 @@ help:
 	@echo "PLOTTER build targets:"
 	@echo "  make all       - Build all parts (STL + STEP)"
 	@echo "  make card      - Build all card variants (standard / wide / thickness test)"
-	@echo "  make body      - Build body panel"
+	@echo "  make body      - Build full body panel (200x200, 6 shelves)"
+	@echo "  make body-test - Build reduced test panel (100x80, 2 shelves)"
 	@echo "  make base      - Build all base variants (75/60/90)"
 	@echo "  make clearance - Build tenon clearance test print"
 	@echo "  make assembly  - Build full assembly preview"
@@ -24,7 +25,10 @@ card: $(BUILD_DIR)
 	$(PYTHON) parts/card_thickness_test.py
 
 body: $(BUILD_DIR)
-	$(PYTHON) parts/body_6row.py
+	$(PYTHON) parts/body_full.py
+
+body-test: $(BUILD_DIR)
+	$(PYTHON) parts/body_test.py
 
 base: $(BUILD_DIR)
 	$(PYTHON) parts/base_75.py
