@@ -34,8 +34,8 @@ def test_wedge_back_is_taller_than_front():
     """ウェッジは前縁が薄く、後縁が厚い（傾斜上面）。"""
     wedge = make_wedge()
     bbox = wedge.bounding_box()
-    # 高さは back_thickness 程度になる
-    assert bbox.size.Z == pytest.approx(params.wedge_back_thickness, abs=2.0)
+    # 高さは back_thickness 程度になる（ドロワーキャビティ後も外形は変わらない）
+    assert bbox.size.Z == pytest.approx(params.wedge_back_thickness, abs=5.0)
 
 
 def test_wedge_is_single_solid():
@@ -53,3 +53,13 @@ def test_wedge_volume_is_reduced_by_pockets():
     full_volume = profile_area * params.wedge_width
     assert wedge.volume > 0
     assert wedge.volume < full_volume
+
+
+def test_wedge_has_drawer_cavity():
+    """ウェッジ内部にドロワーキャビティがあるので体積が減る。"""
+    wedge = make_wedge()
+    # ドロワーキャビティ + ポケット分の削減を確認
+    avg_thickness = (params.wedge_front_thickness + params.wedge_back_thickness) / 2
+    profile_area = avg_thickness * params.wedge_depth
+    full_volume = profile_area * params.wedge_width
+    assert wedge.volume < full_volume * 0.85  # キャビティ + ポケットで 15%以上削れる

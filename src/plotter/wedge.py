@@ -1,7 +1,9 @@
 """Wedge body の形状生成。
 
-Apple Magic Keyboard 型の薄いウェッジスラブ。上面が緩く傾斜し、6×6=36 の
-カードポケットが上面に切られている。カードを上から差し込んで使う。
+Apple Magic Keyboard 型の薄いウェッジスラブ。上面が緩く傾斜し、6 本の
+長スロット（列の仕切り無し）が上面に切られている。カードを上から差し込んで
+使う。標準カード(30mm)とワイドカード(60mm)を任意に混在可能、スロット内を
+スライドして自由に並び替え。
 
 座標系:
 - 原点: 底面前縁中央 (X=0 中心、Y=0 前縁、Z=0 底)
@@ -71,32 +73,39 @@ def make_wedge(p: Params = default_params) -> Part:
     # body 内部向き法線（上面から Z 下方向）
     inward_dir = (0, sin_t, -cos_t)
 
-    # === 36 個のカードポケット ===
-    slot_w = p.card_width_std + p.card_slot_clearance
-    slot_h = p.card_height + p.card_slot_clearance
-    slot_d = p.card_slot_pocket_depth
+    # === 6 本の長スロット（列仕切り無し、カードはスロット内をスライド可）===
+    slot_length = p.card_slot_length  # X 方向のスロット長
+    slot_thickness = p.card_thickness + p.card_slot_clearance  # 厚み方向 (face_vertical)
+    slot_d = p.card_slot_pocket_depth  # 上面に対する垂直深さ
 
-    rows = p.card_slot_rows
-    cols = p.card_slot_cols
-    for row in range(rows):
-        for col in range(cols):
-            # 上面に沿った X 中心位置と行方向距離
-            x_local = (col - (cols - 1) / 2) * p.card_slot_x_pitch
-            face_t = (row + 0.5) * p.card_slot_face_pitch
+    for row in range(p.card_slot_rows):
+        # 上面に沿った行方向距離（face_t）
+        face_t = (row + 0.5) * p.card_slot_face_pitch
+        # 上面座標 → world (Y, Z)
+        y_world = face_t * cos_t
+        z_world = p.wedge_front_thickness + face_t * sin_t
 
-            # 上面座標 → world (Y, Z)
-            y_world = face_t * cos_t
-            z_world = p.wedge_front_thickness + face_t * sin_t
+        # 傾斜面に沿った平面を定義し、長スロット Box を配置
+        slot_plane = Plane(
+            origin=(0, y_world, z_world),
+            x_dir=(1, 0, 0),
+            z_dir=inward_dir,
+        )
+        # Box(W, H, D): W=長さ(X), H=厚み(face_vertical), D=深さ(inward)
+        slot = slot_plane * Pos(0, 0, slot_d / 2) * Box(slot_length, slot_thickness, slot_d)
+        body = body - slot
 
-            # 傾斜面に沿った平面を定義し、ポケット Box を配置
-            pocket_plane = Plane(
-                origin=(x_local, y_world, z_world),
-                x_dir=(1, 0, 0),
-                z_dir=inward_dir,
-            )
-            # Pos で Box 中心を inward 方向に slot_d/2 だけ進める
-            pocket = pocket_plane * Pos(0, 0, slot_d / 2) * Box(slot_w, slot_h, slot_d)
-            body = body - pocket
+    # === ドロワーキャビティ（前面開口、底面から drawer_floor_offset_z 上） ===
+    # キャビティ幅: drawer_width + clearance, 奥行: drawer_depth + clearance
+    # Z: drawer_floor_offset_z .. drawer_floor_offset_z + drawer_height + clearance
+    cav_w = p.drawer_width + p.drawer_clearance
+    cav_d = p.drawer_depth + p.drawer_clearance
+    cav_h = p.drawer_height + p.drawer_clearance
+    cav_z_center = p.drawer_floor_offset_z + cav_h / 2
+    # Y 中心: キャビティは前面 (Y=0) から cav_d まで → 中心 = cav_d/2
+    cav_y_center = cav_d / 2
+    cavity = Pos(0, cav_y_center, cav_z_center) * Box(cav_w, cav_d, cav_h)
+    body = body - cavity
 
     # Boolean 演算後は Compound になるため Part に変換して返す
     if isinstance(body, Compound):

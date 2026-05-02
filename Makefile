@@ -1,19 +1,20 @@
-.PHONY: all clean test card wedge format lint help
+.PHONY: all clean test card wedge drawer format lint help
 
 PYTHON := uv run python
 BUILD_DIR := build
 
 help:
 	@echo "PLOTTER build targets:"
-	@echo "  make all       - Build all parts (cards + wedge)"
+	@echo "  make all       - Build all parts (cards + wedge + drawer)"
 	@echo "  make card      - Build all card variants"
 	@echo "  make wedge     - Build wedge body"
+	@echo "  make drawer    - Build drawer"
 	@echo "  make test      - Run pytest"
 	@echo "  make format    - Format code with ruff"
 	@echo "  make lint      - Lint code with ruff"
 	@echo "  make clean     - Remove build artifacts"
 
-all: card wedge
+all: card wedge drawer
 
 card: $(BUILD_DIR)
 	$(PYTHON) parts/card_standard.py
@@ -22,6 +23,9 @@ card: $(BUILD_DIR)
 
 wedge: $(BUILD_DIR)
 	$(PYTHON) parts/wedge.py
+
+drawer: $(BUILD_DIR)
+	$(PYTHON) parts/drawer.py
 
 test:
 	uv run pytest

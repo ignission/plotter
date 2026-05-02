@@ -25,16 +25,27 @@ class Params:
     # === Wedge body ===
     wedge_width: float = 200.0  # X 方向（左右）
     wedge_depth: float = 200.0  # Y 方向（前後）
-    wedge_front_thickness: float = 5.0  # 前縁の薄さ
-    wedge_back_thickness: float = 35.0  # 後縁の厚さ
+    wedge_front_thickness: float = 20.0  # 前縁の厚さ（ドロワー収容のため 5→20）
+    wedge_back_thickness: float = 50.0  # 後縁の厚さ（傾斜角維持のため 35→50）
     wedge_fillet_radius: float = 4.0  # 全エッジ R
 
-    # === Card slots (cut into top tilted surface) ===
+    # === Drawer ===
+    drawer_width: float = 180.0  # X 方向（ウェッジ内幅 - 余裕）
+    drawer_depth: float = 150.0  # Y 方向（前縁から後縁手前まで）
+    drawer_height: float = 12.0  # Z 方向（厚み）
+    drawer_clearance: float = 0.4  # ウェッジキャビティとのスライド隙間
+    drawer_wall_thickness: float = 2.0  # ドロワー外壁の厚み
+    drawer_floor_offset_z: float = 4.0  # ウェッジ底からドロワー底面までの Z オフセット
+    drawer_pull_diameter: float = 18.0  # 前面の指掛け recess 直径
+    drawer_pull_depth: float = 4.0  # recess の深さ
+
+    # === Card slots (cut into top tilted surface, 6 rows of long slits) ===
+    # 列の仕切りはなし。各行 1 本の長スロット。標準カード(30mm)とワイド(60mm)
+    # を任意の組み合わせで並べられる。カードはスロット内を自由スライド可。
     card_slot_rows: int = 6
-    card_slot_cols: int = 6
-    card_slot_pocket_depth: float = 3.0  # ポケット深さ（カード厚2+1mm余裕）
-    card_slot_clearance: float = 0.5  # ポケット幅と長さの余裕
-    card_slot_x_pitch: float = 33.0  # X 方向のスロット中心間隔
+    card_slot_length: float = 180.0  # 各スロットの長さ（X 方向、左右 10mm マージン）
+    card_slot_pocket_depth: float = 8.0  # 上面に対する垂直深さ（カード保持力）
+    card_slot_clearance: float = 0.5  # 厚み方向のクリアランス（カード厚2 + 0.5）
     card_slot_face_pitch: float = 33.0  # 上面に沿った行間隔
 
 
