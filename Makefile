@@ -6,7 +6,7 @@ BUILD_DIR := build
 help:
 	@echo "PLOTTER build targets:"
 	@echo "  make all       - Build all parts (STL + STEP)"
-	@echo "  make card      - Build card parts"
+	@echo "  make card      - Build all card variants (standard / wide / thickness test)"
 	@echo "  make body      - Build body panel"
 	@echo "  make base      - Build all base variants (75/60/90)"
 	@echo "  make clearance - Build tenon clearance test print"
@@ -21,6 +21,7 @@ all: card body base assembly
 card: $(BUILD_DIR)
 	$(PYTHON) parts/card_standard.py
 	$(PYTHON) parts/card_wide.py
+	$(PYTHON) parts/card_thickness_test.py
 
 body: $(BUILD_DIR)
 	$(PYTHON) parts/body_6row.py
