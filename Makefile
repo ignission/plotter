@@ -9,7 +9,7 @@ help:
 	@echo "  make card      - Build all card variants (standard / wide / thickness test)"
 	@echo "  make body      - Build full body panel (200x200, 6 shelves)"
 	@echo "  make body-test - Build reduced test panel (100x80, 2 shelves)"
-	@echo "  make base      - Build all base variants (75/60/90)"
+	@echo "  make base      - Build 75 base (60/90 variants pending)"
 	@echo "  make clearance - Build tenon clearance test print"
 	@echo "  make assembly  - Build full assembly preview"
 	@echo "  make test      - Run pytest"
@@ -32,8 +32,8 @@ body-test: $(BUILD_DIR)
 
 base: $(BUILD_DIR)
 	$(PYTHON) parts/base_75.py
-	$(PYTHON) parts/base_60.py
-	$(PYTHON) parts/base_90.py
+	# $(PYTHON) parts/base_60.py  # TODO: 60° 版を実装したら有効化
+	# $(PYTHON) parts/base_90.py  # TODO: 90° 版を実装したら有効化
 
 clearance: $(BUILD_DIR)
 	$(PYTHON) tests/tenon_clearance_test.py
