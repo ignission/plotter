@@ -1,4 +1,4 @@
-.PHONY: all clean test card body base assembly format lint help
+.PHONY: all clean test card body base assembly clearance format lint help
 
 PYTHON := uv run python
 BUILD_DIR := build
@@ -9,6 +9,7 @@ help:
 	@echo "  make card      - Build card parts"
 	@echo "  make body      - Build body panel"
 	@echo "  make base      - Build all base variants (75/60/90)"
+	@echo "  make clearance - Build tenon clearance test print"
 	@echo "  make assembly  - Build full assembly preview"
 	@echo "  make test      - Run pytest"
 	@echo "  make format    - Format code with ruff"
@@ -28,6 +29,9 @@ base: $(BUILD_DIR)
 	$(PYTHON) parts/base_75.py
 	$(PYTHON) parts/base_60.py
 	$(PYTHON) parts/base_90.py
+
+clearance: $(BUILD_DIR)
+	$(PYTHON) tests/tenon_clearance_test.py
 
 assembly: $(BUILD_DIR)
 	$(PYTHON) assemblies/full_assembly.py

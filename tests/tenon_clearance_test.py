@@ -21,7 +21,9 @@ BASE_Y: float = 8.0
 GAP_BETWEEN_HALVES: float = 1.0
 TENON_BASE_Z: float = 3.0
 HOLE_DEPTH_MARGIN: float = 2.0
-MORTISE_BASE_Z: float = 24.0
+# ホゾ全高(TENON_BASE_Z + tenon_height)よりわずかに高くしてホゾ穴の天面側に余裕を残す。
+# tenon_height を変えると自動追従する。
+MORTISE_BASE_Z: float = TENON_BASE_Z + params.tenon_height + HOLE_DEPTH_MARGIN - 1.0
 
 
 def build_specimen(clearance: float) -> Compound:
