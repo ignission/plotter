@@ -47,12 +47,13 @@ def make_body(p: Params = default_params) -> Part:
         body = body.fuse(lip)
 
     # === ホゾ×tenon_count（X 等間隔、Y<0 に突出、Z 中心配置）===
-    if p.tenon_count >= 2:
-        pitch = (p.panel_width - p.tenon_width) / (p.tenon_count - 1)
-    else:
-        pitch = 0.0
+    # tenon_count==1 はパネル中央に1本配置、>=2 は両端から等間隔で配置。
     for j in range(p.tenon_count):
-        x_center = -p.panel_width / 2 + p.tenon_width / 2 + j * pitch
+        if p.tenon_count == 1:
+            x_center = 0.0
+        else:
+            pitch = (p.panel_width - p.tenon_width) / (p.tenon_count - 1)
+            x_center = -p.panel_width / 2 + p.tenon_width / 2 + j * pitch
         tenon = Pos(x_center, -p.tenon_height / 2, p.panel_thickness / 2) * Box(
             p.tenon_width, p.tenon_height, p.tenon_thickness
         )
