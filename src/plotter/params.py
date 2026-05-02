@@ -31,7 +31,8 @@ class Params:
     shelf_count: int = 6
     shelf_lip_height: float = 5.0
     shelf_lip_thickness: float = 2.0
-    shelf_divider_thickness: float = 2.0
+    shelf_divider_thickness: float = 1.5  # 30mmカード+0.5mmクリアランスを確保するため2.0から減
+    shelf_depth: float = 8.0  # 仕切りがパネル前面から突き出す奥行
 
     # === Tenon (本体下端の凸) ===
     tenon_count: int = 5

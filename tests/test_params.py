@@ -37,7 +37,8 @@ def test_body_panel_defaults():
     assert params.shelf_count == 6
     assert params.shelf_lip_height == 5.0
     assert params.shelf_lip_thickness == 2.0
-    assert params.shelf_divider_thickness == 2.0
+    assert params.shelf_divider_thickness == 1.5
+    assert params.shelf_depth == 8.0
 
 
 def test_tenon_defaults():
